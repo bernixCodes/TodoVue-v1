@@ -1,16 +1,22 @@
 {
   "projects": [
-      {
-          "id": 1,
-          "title" : "Learn intro to data science",
-          "details": "Lorem ipsum",
-          "complete" : false
-      },
-      {
-          "id": 2,
-          "title" : "Artificial Intelligence",
-          "details": "Lorem ipsum",
-          "complete" : true
-      }
+    {
+      "id": 1,
+      "title": "Software Engineering Updated",
+      "details": "Lorem ipsum updated",
+      "complete": true
+    },
+    {
+      "id": 2,
+      "title": "Artificial Intelligence",
+      "details": "Lorem ipsum",
+      "complete": true
+    },
+    {
+      "title": "gthyuj7",
+      "details": "hnjyulo9",
+      "complete": false,
+      "id": 3
+    }
   ]
 }

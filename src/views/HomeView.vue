@@ -1,8 +1,10 @@
 <template>
   <div class="home">
+     <FilterNav @filterChange='current = $event' :current="current" class="move"/>
  <div v-if="projects.length">
-   <div v-for="project in projects" :key="project.id">
-    <SingleProject :project="project"/>
+  
+   <div v-for="project in filteredProjects" :key="project.id">
+    <SingleProject :project="project" @delete="handleDelete" @complete="handleComplete"/>
    </div>
  </div>
   </div>
@@ -10,12 +12,14 @@
 
 <script>
 import SingleProject from '@/components/SingleProject'
+import FilterNav from '@/components/FilterNav'
 export default {
   name: 'HomeView',
-  components: { SingleProject },
+  components: { SingleProject , FilterNav },
   data(){
     return{
-      projects: []
+      projects: [],
+      current : 'all'
     }
   },
   mounted(){
@@ -23,7 +27,38 @@ export default {
     .then(res => res.json())
     .then(data => this.projects = data)
     .catch(err => console.log(err.message))
+  },
+  methods:{
+    handleDelete(id){
+      this.projects = this.projects.filter((project) =>{
+       return project.id !== id
+      })
+    },
+    handleComplete(id){
+     let projectFound = this.projects.find(project =>{
+       return project.id == id
+     })
+     projectFound.complete = !projectFound.complete
+    }
+  },
+  computed:{
+    filteredProjects(){
+      if(this.current === 'completed'){
+        return this.projects.filter((project)=> project.complete)
+      }
+       if(this.current === 'ongoing'){
+        return this.projects.filter((project)=> !project.complete)
+      }
+
+      return this.projects
+    }
   }
   
 }
 </script>
+<style >
+.move{
+  margin-top: -70px;
+  margin-bottom: -20px;
+}
+</style>

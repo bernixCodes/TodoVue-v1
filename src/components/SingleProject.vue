@@ -1,11 +1,11 @@
 <template>
-  <div class="project">
-      <div class="actions" @click="toggleDetails">
-          <h3> {{project.title}}</h3>
+  <div class="project" :class="{complete: project.complete}">
+      <div class="actions">
+          <h3  @click="toggleDetails"> {{project.title}}</h3>
           <div class="icons">
-            <span class="material-icons">edit</span>
-            <span class="material-icons">delete</span>
-            <span class="material-icons">done</span>
+            <router-link :to="{name: 'EditProject', params: {id: project.id}}"> <span class="material-icons">edit</span></router-link>
+            <span class="material-icons" @click="deleteTask">delete</span>
+            <span class="material-icons tick" @click="toggleComplete">done</span>
           </div>
       </div>
       <div class="details" v-if="showDetails" >
@@ -19,12 +19,26 @@ export default {
 props:['project'],
 data(){
     return{
-        showDetails: false
+        showDetails: false,
+        url:'http://localhost:3000/projects/' + this.project.id
     }
 },
 methods: {
     toggleDetails(){
         this.showDetails = !this.showDetails
+    },
+    deleteTask(){
+       fetch(this.url, {method: 'DELETE'})
+       .then(()=>this.$emit('delete',this.project.id))
+       .catch(err =>console.log(err.message))
+    },
+    toggleComplete(){
+        fetch(this.url,{
+            method: 'PATCH',
+            headers: {'content-Type': 'application/json'},
+            body: JSON.stringify({complete: !this.project.complete})
+            }) .then(()=>this.$emit('complete',this.project.id))
+            .catch(err =>console.log(err.message))
     }
 }
 }
@@ -55,5 +69,11 @@ h3{
 }
 .material-icons:hover{
     color: #777;
+}
+.project.complete{
+    border-left: 4px solid #00ce89;
+}
+.project.complete .tick{
+    color:#00ce89
 }
 </style>
