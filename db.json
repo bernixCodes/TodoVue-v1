@@ -1,0 +1,16 @@
+{
+  "projects": [
+      {
+          "id": 1,
+          "title" : "Learn intro to data science",
+          "details": "Lorem ipsum",
+          "complete" : false
+      },
+      {
+          "id": 2,
+          "title" : "Artificial Intelligence",
+          "details": "Lorem ipsum",
+          "complete" : true
+      }
+  ]
+}
